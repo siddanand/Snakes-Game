@@ -20,12 +20,12 @@ function App() {
   });
   useEffect(() => {
     setPoint(generateNewPoint());
-  }, []);
+  }, [isGameOver]);
   useEffect(() => {
     onWinPoint();
     onBoundaryTouch();
     onSnakeTouch();
-  }, [snakePart]);
+  }, [snakePart, isGameOver]);
 
   const snakeMovement = () => {
     let parts = [...snakePart];
@@ -104,14 +104,36 @@ function App() {
       }
     });
   };
+  const onGameRestart = () => {
+    window.location.reload();
+  };
   return (
     <div className="App">
       {isGameOver ? (
-        <div>Game over final score : {snakePart.length - 2}</div>
+        <div>
+          <h1 style={{ textAlign: "center" }}>
+            Game over!! Final Score : {snakePart.length - 2}
+          </h1>
+          <center>
+            <button
+              style={{
+                height: "30px",
+                width: "200px",
+                background: "lightgrey",
+              }}
+              onClick={onGameRestart}
+            >
+              Restart
+            </button>
+          </center>
+        </div>
       ) : (
         <div>
-          This is the Score Board: {snakePart.length - 2}
-          <div className="game-area">
+          <h1 style={{ textAlign: "center" }}>Snakes</h1>
+          <p style={{ textAlign: "center" }}>
+            Score Board: {snakePart.length - 2} Points
+          </p>
+          <div className="playground">
             <Snake value={{ snakePart: snakePart }} />
             <Point value={{ part: point }} />
           </div>
